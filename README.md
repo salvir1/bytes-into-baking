@@ -30,7 +30,7 @@ This is an ongoing project. New information will be added soon.
 ## Results
 
 - Of the 100 links obtained from the Google search by country, 35-40 usable temperatures were obtained for the US distribution and for the French distribution.
-- Only 10 usable temperatures were obtained for the UK distribution. This is likely due to many recipes of US origin appearing in the google.uk search and being filtered out due to the restriction that temps needed to be expressed primarily in celsius.
+- Only 14 usable temperatures were obtained for the UK distribution. This is likely due to many recipes of US origin appearing in the google.uk search and being filtered out due to our restriction that temps needed to be expressed primarily in celsius.
 - Mean temperatures are similar for all three countries.
 - The distributions are different for the countries with the US having a narrower distribution of initial baking temperature and the French distribution being wider.
 
