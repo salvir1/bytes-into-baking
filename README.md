@@ -29,10 +29,10 @@ This is an ongoing project. New information will be added soon.
 
 ## Results
 
-- Of the 100 links obtained from the Google search by country, 35-40 usable temperatures were obtained for the US distribution and for the French distribution.
-- Only 14 usable temperatures were obtained for the UK distribution. This is likely due to many recipes of US origin appearing in the google.uk search and being filtered out due to our restriction that temps needed to be expressed primarily in celsius.
-- Mean temperatures are similar for all three countries.
-- The distributions are different for the countries with the US having a narrower distribution of initial baking temperature and the French distribution being wider.
+- Of the 140 links obtained from the Google search by country, 50+ usable temperatures were obtained for the US distribution and for the French distribution.
+- Only 12 usable temperatures were obtained for the UK distribution. This is likely due to many recipes of US origin appearing in the google.uk search and being filtered out due to our restriction that temps needed to be expressed primarily in celsius.
+- Mean temperatures are higher in the US than in France or the UK. Means testing has not been performed yet.
+- The distributions are slightly different for the countries with France having what appears to be a slightly right-skewed distribution compared to the US distribution.
 
 - <img align="left" src="img/us-croissant-baketemp-distribution.png" width='500' height='auto' ></img>
 <pre>
@@ -82,7 +82,8 @@ This is an ongoing project. New information will be added soon.
 
 </pre>
 ## Future Directions
-- Seek to obtain more usable temperatures by grabbing more links from Google and/or by refining the sifting of the websites to obtain a better yield.
-- Consider how best to compare the distributions.
+- Improve search to get more usable temperatures by sifting of the websites to obtain a better yield (and grabbing more links from Google)
+- Optimize code. Replace search with an unsupervised NLP model
 - Explore other parameters of croissant preparation and baking.
 - Explore the comments for the various websites to determine if people in the respective countries interact differently with recipe authors.
+- Once the tools are in good shape, use them to explore other food topics.
