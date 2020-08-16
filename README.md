@@ -7,7 +7,7 @@
 
 ## Goals
 - The first phase of this project--a small step--was to determine if croissant baking instructions vary between the US, UK, and France. 
-This is an ongoing project. New information will be added soon.
+This is an ongoing project. New areas of exploration and deeper research into existing ones will be added soon.
 
 ## Tools and techniques used in this project
 - **Tools**
@@ -82,8 +82,9 @@ This is an ongoing project. New information will be added soon.
 
 </pre>
 ## Future Directions
-- Improve search to get more usable temperatures by sifting of the websites to obtain a better yield (and grabbing more links from Google)
-- Optimize code. Replace search with an unsupervised NLP model
+- Develop a spider to crawl targeted websites instead of relying on Google search
+- Improve the search web-scraping function to obtain a better yield
+- Replace search with an unsupervised NLP model
 - Explore other parameters of croissant preparation and baking.
 - Explore the comments for the various websites to determine if people in the respective countries interact differently with recipe authors.
 - Once the tools are in good shape, use them to explore other food topics.
