@@ -1,23 +1,30 @@
 # bytes-into-baking
 
 ## Overview
-- Food is trendy, in that what we put on our tables is constantly and dramatically being reshaped by the latest food trends. New food trends seemingly appear overnight and disappear just as quickly. 
-
+- Food is one of the most common topics on the internet, with content being published on the web by big businesses such as *foodnetwork* and *allrecipes* to home chefs writing their own blogs. 
+- Food is trendy--keeping on top of food trends could be valuable to people who write about food and publish recipes.
+## A utility pastry recipe web scraper
+- Can one write a utility web scraper to grab recipes from websites that is general enough to work across a variety of website and copy structures?
+## Turning the recipe documents into vectors for a supervised machine learning classifier problem
+- How well do the recipe instructions predict the type of recipe?
+- If the predictive power is good, what are the key words that the model is relying upon?
+- Can an unsupervised model look within a particular recipe class to identify different schools of thought for that particular product? E.g. Can it identify different types of croissant recipes?
+## Looking towards the future
 - Can a model that scrapes the web to keep the pulse on the food world detect differences in regional food culture? Can a model identify changes in food trends before they are generally recognized by the public? Can a model uncover interesting, yet poorly recognized food histories?
-
 ## Goals
-- The first phase of this project--a small step--was to determine if croissant baking instructions vary between the US, UK, and France. 
-This is an ongoing project. New areas of exploration and deeper research into existing ones will be added soon.
-
+- Generate a list of target websites for a particular recipe class by pulling urls from Google search
+- Develop a utility scraper to identify recipes and then grab pertinent information about the recipe from the recipe section--starting with instructions
+- Test the results of the scraper on a supervised model that classifies the vectorized recipes
+- Explore the possibiliity of identifying different groupings within a specific recipe class
 ## Tools and techniques used in this project
 - **Tools**
-> - Python, Jupyter Lab, Beautiful Soup, Pandas, Numpy
+> - Python, Beautiful Soup, Pandas, Numpy, Gensim
 - **Visualization**
-> - Matplotlib
+> - Matplotlib, Plotly
 - **Techniques**
-> - Web-scraping
+> - Web-scraping, Multinomial Naive Bayes Classification, Non-negative Matrix Factoring (NMF)
 
-## Data and EDA
+## Preliminary EDA
 
 ### Searching for croissant baking temperatures
 - Searches for 'croissant bake temperature' or 'temperature cuisson croissant' were conducted on Google country-specific search sites for the US, UK, and France. The first 100 links were obtained for each country. These links were subsequently scraped to determine if they were a croissant baking recipe, and if so, for their initial baking temperature.
@@ -26,8 +33,7 @@ This is an ongoing project. New areas of exploration and deeper research into ex
 - For the US graphic, websites were excluded if the first temperature mention was in celsius.
 - For the UK and French graphics, websites were excluded if the first temperature mention was in fahrenheit.
 
-
-## Results
+## Results from the Preliminary EDA phase
 
 - Of the 140 links obtained from the Google search by country, 50+ usable temperatures were obtained for the US distribution and for the French distribution.
 - Only 12 usable temperatures were obtained for the UK distribution. This is likely due to many recipes of US origin appearing in the google.uk search and being filtered out due to our restriction that temps needed to be expressed primarily in celsius.
