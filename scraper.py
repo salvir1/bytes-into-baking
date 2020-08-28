@@ -20,6 +20,7 @@ class Recipe(dict):
 
     def __init__(
         self,
+        page_genus: str = "",
         page_family: str = "",
         page_species: str = "",
         url: str = "",
@@ -30,6 +31,7 @@ class Recipe(dict):
         instructions: str = "",
     ):
 
+        self.page_genus = page_genus
         self.page_family = page_family
         self.page_species = page_species
         self.url = url
@@ -49,126 +51,175 @@ class Recipe(dict):
         return self.__dict__[key]
 
 
-class ScrapePage:
-    """Webpage scraping object"""
 
-    def __init__(self, page_family, page_species, search_pattern_1, search_pattern_2):
-        self.search_pattern_1 = search_pattern_1
-        self.search_pattern_2 = search_pattern_2
+
+class ScrapeRecipe:
+    
+    default_headers = [{"User-Agent": "Mozilla/5.0"}, {"User-Agent": "XY"}, {}]
+    
+    def __init__(self,
+                page_genus : str = "",
+                page_family : str = "",
+                page_species : str = "",
+                re_pattern_1 : str = "",
+                re_pattern_2 : str = ""):
+        """Recipe object that stores information of a recipe in a dictionary like object"""
+
+        self.page_genus = page_genus
         self.page_family = page_family
         self.page_species = page_species
+        self.re_pattern_1 = re_pattern_1
+        self.re_pattern_2 = re_pattern_2
+        self.current_language = ''
+        
 
-    def scrape_page(self, url) -> Recipe:
+    def process_url(self, url:str, headers:list=[], verbose:bool=False, idx:str='', extract_lang:bool=False) -> Recipe:
+        content = self.cycle_header(url, headers=headers, verbose=verbose, idx=idx, extract_lang=extract_lang)
+        json_content = self.load_json(content)
+        
+        parsed_data = self.parse_data(json_content)
+        time.sleep(0.25)
+        
+        if extract_lang:
+            parsed_data['language'] = self.current_language
+        
+        parsed_data['url'] = url
+        parsed_data['page_genus'] = self.page_genus
+        parsed_data['page_family'] = self.page_family
+        parsed_data['page_species'] = self.page_species
 
-        res = {
-            "page_family": "",
-            "page_species": "",
-            "url": url,
-            "language": "",
-            "recipe_name": "",
-            "cook_time": "",
-            "ingredients": "",
-            "instructions": "",
-        }
+        # Check if instructions exist
+        if parsed_data.get('instructions', None) == None:
+            instructions = self.alternate_instructions(url)
+            parsed_data['instructions'] = instructions
+        
+        
+        return Recipe(**parsed_data)
+        
+        
+    def cycle_header(self, url:str, headers:list=[], verbose:bool=False, idx:str='', extract_lang:bool=False) -> str:
+        '''1: Returns target uncoded json string from URL for further parsing'''
+        header_map = headers if headers else self.default_headers
+        res = None
 
-        header_map = [{"User-Agent": "Mozilla/5.0"}, {"User-Agent": "XY"}, {}]
-
-        target_xpath = "//html/@lang"
-
-        try:
-            for header in header_map:
-                r = requests.get(url, allow_redirects=False, headers=header)
-                time.sleep(0.5)
-                if r.status_code == 200:
-                    print(f"Success {r.status_code}, {url}")
+        for header in header_map:
+            try:
+                req = requests.get(url, allow_redirects=False, headers=header)
+                if req.status_code == 200:
                     break
-                    
-            if r.status_code != 200:
-                print(f"Fail {r.status_code}, {url}")
-                return Recipe(**res)
+            except Exception as msg:
+                print('Exception', msg)
+                return res
 
-            root = lxml.html.fromstring(r.text)
+        soup = BeautifulSoup(req.content, 'html')
+        pool = [x.string for x in soup.findAll(type="application/ld+json") if x.string]
+        
+        # Extract Language
+        if extract_lang:
+            self.current_language = self.extract_language(req)
+        
+        # Extract main content
+        if pool:
+            res = max(pool, key=len)
+
+        access_result = "Success" if req.status_code == 200 and res else "Failure"
+        if verbose:
+            print(f'{idx} {access_result} with code {req.status_code} at URL: {url}')
+
+        return res
+    
+    def alternate_instructions(self, url:str='') -> str:
+        res = ''
+        call = requests.get(url)
+        if call.status_code == 200:
+            soup = BeautifulSoup(call.content)
+            result = soup.find_all('div', attrs={'class': ['body entry-content', 'entry-content', 
+                                                           'hrecipe', 'post-entry', 'post-content', 
+                                                           'post-content__body','recept', 'recipe-content']})
+            for r in result:
+                res += str(r.text)
+        return res
+
+    
+    def extract_nested_instructions(self, content:any, key_:str='') -> str:
+        res = content.get(key_)
+        if res != None and not isinstance(res, str):
+            if isinstance(res, list):
+                res = ' '.join([i.get('text', '') for i in res if isinstance(i, dict)])
+        
+        return res
+    
+    def extract_language(self, response:requests.models.Response) -> list:
+        res = ''
+        if response.text:
+            target_xpath = "//html/@lang"
+            root = lxml.html.fromstring(response.text)
             language_construct = root.xpath(target_xpath)
 
             if language_construct:
-                language = language_construct[0].split("-")[0]
+                res = language_construct[0].split("-")[0]
 
-            soup = BeautifulSoup(r.content, "html")
-            json_data = soup.findAll(type="application/ld+json")
+        return res
+    
+
+    def x_strip(self, string:str, seq:list=['\n', '\t']) -> str:
+        """Strips all newline and tab escape instances from string"""
+        return string.replace('\n', '').replace('\t', '')
+    
+
+    def load_json(self, string:str) -> dict:
+        """2: Returns dictionary from tag string, if result of json.loads is not dict object, largest dict object will be used"""
+        res = {}
+        if string:
+            stripped = self.x_strip(string)
+            try:
+                converted = json.loads(stripped)
+                res = converted
+            except:
+                pass
+
+        if isinstance(res, list):
+            res = max(res, key=len)
+        return res
+    
+
+    def get_root(self, raw:dict) -> dict:
+        '''Given a json decoded dictionary, returns target root dictionary object'''
+        res = {}
+        if raw:
+            trg_key = next(x for x in raw if not isinstance(raw[x], str))
+            nest = raw[trg_key]
+
+            for dict_ in nest:
+                find = dict_.get('@type')
+                if isinstance(find, str) and find.lower().strip() == 'recipe':
+                    res = dict_
+                    break
+
+        return res
+
+
+    def parse_data(self, raw:dict) -> dict:
+        '''3: Parses needed information from raw json parsed dictionary object'''
+        res = {}
+        if raw:
+            # Pre-processing
+            if len(raw.keys()) <= 2:
+                raw = self.get_root(raw)
+                
+            res['instructions'] = self.extract_nested_instructions(raw, 'recipeInstructions')
             
-            page_genus = ''
-            page_family = ''
-            page_species = ''
-            language = ''
-            recipe_name = ''
-            cook_time = ''
-            ingredients = ''
-            instructions = ''
+            
+            res['ingredients'] = self.extract_nested_instructions(raw, "recipeIngredient")
+            res['recipe_name'] = self.extract_nested_instructions(raw, "name")
+            res['cook_time'] = self.extract_nested_instructions(raw, "cookTime")
+            
+            
+            
+#         res = raw
+        return res
 
 
-            # For sites that follow schema.org for 'Recipe'
-            if len(json_data) > 0:                
-                    for i in range(len(json_data)):
-                        data = json.loads(json_data[i].string)
-                        check = self.find_value_of_nested_dict_or_list(data,'recipeInstructions')
-                        
-                        instr = []
-                        
-                        if check:
-                            if isinstance(check[0], dict) and instr == []:
-                                instr = [x.get('text', '') for x in check]     
-                                instructions = ''.join(instr)
-                            else:
-                                instructions = ''.join(check)
-                        
-                        ingredients = self.find_value_of_nested_dict_or_list(data,'recipeIngredient')
-                        recipe_name = self.find_value_of_nested_dict_or_list(data,'name')
-                        cook_time = self.find_value_of_nested_dict_or_list(data,'cookTime')
 
-                # For sites that do not follow schema.org for 'Recipe'
-            if len(json_data) == 0 or self.find_value_of_nested_dict_or_list(data,'recipeInstructions') == False:     
-                    result = soup.find_all('div', attrs={'class': ['body entry-content', 'entry-content', 
-                                                                   'hrecipe', 'post-entry', 'post-content', 
-                                                                   'post-content__body','recept', 'recipe-content']})
-                    soup_string = ''
-                    for r in result:
-                        soup_string += str(r.text)
-                    instructions = soup_string
-              
-            res = {
-            "page_genus": "",
-            "page_family": "",
-            "page_species": "",
-            "url": url,
-            "language": language,
-            "recipe_name": recipe_name,
-            "cook_time": cook_time,
-            "ingredients": ingredients,
-            "instructions": instructions,
-        }
-            return Recipe(**res)
 
-        except Exception as e:
-            print("Exception", e)
-            return Recipe(**res)
-        
 
-    def find_value_of_nested_dict_or_list(self, a, our_key):
-        if not isinstance(a, clct.Iterable):
-            return False
-        if isinstance(a, str):
-            return False
-        if isinstance(a, list):
-            for item in a:
-                result = self.find_value_of_nested_dict_or_list(item, our_key)
-                if result:
-                    return result
-        if isinstance(a, dict):
-            for key in a:
-                if key == our_key:
-                    return a[our_key]
-                else:
-                    result = self.find_value_of_nested_dict_or_list(a[key], our_key)
-                    if result:
-                        return result
-        return False
