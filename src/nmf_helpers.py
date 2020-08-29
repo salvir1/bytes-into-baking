@@ -1,8 +1,6 @@
 '''
-This script provides functions to read & analyze the contents of NYT articles
-using our custom NMF class -and- using the NMF implementation from scikit-learn.
-
-For a discussion of this script, see `pair.ipynb`.
+This script provides functions to read & analyze the contents of documents 
+using a custom NMF class -and- using the NMF implementation from scikit-learn.
 '''
 
 import numpy as np
@@ -80,7 +78,7 @@ def hand_label_topics(H, vocabulary):
 
 def analyze_article(article_index, contents, web_urls, W, hand_labels):
     '''
-    Print an analysis of a single NYT articles, including the article text
+    Print an analysis of a single document, including the text
     and a summary of which topics it represents. The topics are identified
     via the hand-labels which were assigned by the user.
     '''
@@ -94,9 +92,9 @@ def analyze_article(article_index, contents, web_urls, W, hand_labels):
 
 def main():
     '''
-    Run the unsupervised analysis of the NYT corpus, using NMF to find latent
+    Run the unsupervised analysis of the corpus, using NMF to find latent
     topics. The user will be prompted to label each latent topic, then a few
-    articles will be analyzed to see which topics they contain.
+    documents will be analyzed to see which topics they contain.
     '''
     # Load the corpus.
     df = pd.read_pickle("data/articles.pkl")
@@ -117,16 +115,6 @@ def main():
     factorizer = NMF(k=7, max_iters=35, alpha=0.5)
     W, H = factorizer.fit(X, verbose=True)
 
-    # Label topics and analyze a few NYT articles.
-    # Btw, if you haven't modified anything, the seven topics which should
-    # pop out are:  (you should type these as the labels when prompted)
-    #  1. "football",
-    #  2. "arts",
-    #  3. "baseball",
-    #  4. "world news (middle eastern?)",
-    #  5. "politics",
-    #  6. "world news (war?)",
-    #  7. "economics"
     hand_labels = hand_label_topics(H, vocabulary)
     rand_articles = np.random.choice(list(range(len(W))), 15)
     for i in rand_articles:
