@@ -1,5 +1,5 @@
 # bytes-into-baking
-<img align="right" src="img/croissant-display.JPG" width='500' height='auto' ></img>
+<img align="right" src="img/croissant-display.JPG" width='400' height='auto' ></img>
 
 ## Project Overview
 - Food is one of the most common topics on the internet, with content being published on the web by big businesses such as *foodnetwork* and *allrecipes* to home chefs writing their own blogs. 
@@ -38,19 +38,11 @@
 > - Pie crust
 > - Puff pastry
 
-<div class="row">
-  <div class="column">
-    <img src="img/ciambellone-star.JPG" width='200' height='auto' ></img>
-  </div>
-  <div class="column">
-    <img src="img/open_crumb_croissant.jpg" width='200' height='auto' ></img>
-  </div>
-  <div class="column">
-    <img src="img/galette.JPG" width='200' height='auto' ></img>
-  </div>
-  <div class="column">
-    <img src="img/Puff pastry tart.JPG" width='200' height='auto' ></img>
-  </div>
+  <div class="row">
+      <img src="img/ciambellone-star.JPG" width='150' height='auto' ></img>
+    <img src="img/open_crumb_croissant.jpg" width='150' height='auto' ></img>
+    <img src="img/galette.JPG" width='150' height='auto' ></img>
+    <img src="img/Puff pastry tart.JPG" width='150' height='auto' ></img>
 </div> 
 
 ### Numerous ways to format a recipe, but some intriguing similarities make a utility scraper possible
@@ -86,6 +78,31 @@
 ## Results
 - Mean accuracy of about 90% for the train test split set
 - Similar results from the K Fold cross validation approach
+
+<div class="row">
+    <img align="center" src="img/errors_table.png" width='1100' height='auto' ></img>
+</div> 
+
+<div class="row">
+    <img align="center" src="img/confusion_matrix.png" width='500' height='auto' ></img>
+</div>
+     
+ <br>
+
+
+
+
+
+
+
+
+
+
+
+</br>
+  
+  
+
 
 ## Analysis
 - Most of the errors occurred before the ML model step. In several cases, the recipe author misclassified their recipe. One common mistake is to classify a pie crust as a puff pastry--they are not the same. Google search also can have a relatively high rate of type 2 errors--false positives. Non-recipe websites were weeded out by the web scraper, but some non-target recipes made it through. For instance, a breakfast sausage croissant sandwich recipe made it through.
@@ -163,33 +180,3 @@
 
 
 </pre>
-## Web scraper design
-
-### A focus on pastry recipes
-- I chose to start with pastry recipes since I come with an indepth knowledge of this space. I've explored hundreds of pastry recipe websites over my career.
-- I chose four categories of pastry and baked goods recipes that had what I considered to be important differences, yet enough similarity that they might confuse a model.
-
-### Numerous ways to format a recipe, but some intriguing similarities make a utility scraper possible
-- My initial Google search website 'spider' yielded more than recipe websites--I needed a scraper that would limit the possibility of seeing a recipe when one wasn't there
-- More than a third of recipes I encountered follow a schema format promoted by Yoast, a website schema publisher to aid in SEO optimization--useful tags and a json structure with standardized keys for things like recipe ingredients and instructions (Yeah!)
-- Another 40-50% placed the body of their recipe in a script tag with one of several commonly used attributes. This wasn't as clean of an approach--I usually ended up with extra text--but I still was able to get some results
-- The rest, well, some didn't want to be scraped, and some had unusual structures. I could spend a lot of time chasing the tail with limited utility.
-
-### Results
-
-- First pass links from Google search | Usable recipes obtained |  Yield
-- Brioche               | 112       | 55     | 49%
-- Ciambellone           | 116       | 55     |  47%
-- Croissant             | 180       | 72     | 40%
-- Puff pastry           | 200       | 86     | 43%
-
-
-
-
-## Future Directions
-- Develop a spider to crawl targeted websites instead of relying on Google search
-- Improve the search web-scraping function to obtain a better yield
-- Replace search with an unsupervised NLP model
-- Explore other parameters of croissant preparation and baking.
-- Explore the comments for the various websites to determine if people in the respective countries interact differently with recipe authors.
-- Once the tools are in good shape, use them to explore other food topics.
