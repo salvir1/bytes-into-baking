@@ -40,16 +40,16 @@
 
 <div class="row">
   <div class="column">
-    <img src="img/ciambellone-star.JPG" width='200' height='auto' ></img>
+    <img src="img/ciambellone-star.JPG" width='150' height='auto' ></img>
   </div>
   <div class="column">
-    <img src="img/open_crumb_croissant.jpg" width='200' height='auto' ></img>
+    <img src="img/open_crumb_croissant.jpg" width='150' height='auto' ></img>
   </div>
   <div class="column">
-    <img src="img/galette.JPG" width='200' height='auto' ></img>
+    <img src="img/galette.JPG" width='150' height='auto' ></img>
   </div>
   <div class="column">
-    <img src="img/Puff pastry tart.JPG" width='200' height='auto' ></img>
+    <img src="img/Puff pastry tart.JPG" width='150' height='auto' ></img>
   </div>
 </div> 
 
@@ -90,10 +90,18 @@
 <div class="row">
     <img align="right" src="img/errors_table.png" width='1100' height='auto' ></img>
 </div> 
+
 <div class="row">
-    <img align="right" src="img/confusion_matrix.png" width='400' height='auto' ></img>
+    <img align="left" src="img/confusion_matrix.png" width='400' height='auto' ></img>
 </div> 
 <pre>
+
+
+
+
+
+
+
 
 
 
