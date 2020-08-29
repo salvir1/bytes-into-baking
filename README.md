@@ -39,18 +39,10 @@
 > - Puff pastry
 
   <div class="row">
-    <div class="column">
       <img src="img/ciambellone-star.JPG" width='150' height='auto' ></img>
-    </div>
-  <div class="column">
     <img src="img/open_crumb_croissant.jpg" width='150' height='auto' ></img>
-  </div>
-  <div class="column">
     <img src="img/galette.JPG" width='150' height='auto' ></img>
-  </div>
-  <div class="column">
     <img src="img/Puff pastry tart.JPG" width='150' height='auto' ></img>
-  </div>
 </div> 
 
 ### Numerous ways to format a recipe, but some intriguing similarities make a utility scraper possible
