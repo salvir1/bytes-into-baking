@@ -88,12 +88,26 @@
 - Similar results from the K Fold cross validation approach
 
 <div class="row">
-    <img align="right" src="img/errors_table.png" width='1100' height='auto' ></img>
+    <img align="center" src="img/errors_table.png" width='1100' height='auto' ></img>
 </div> 
 
 <div class="row">
-    <img align="left" src="img/confusion_matrix.png" width='400' height='auto' ></img>
-</div> 
+    <img align="center" src="img/confusion_matrix.png" width='500' height='auto' ></img>
+</div>
+     
+ <br>
+
+
+
+
+
+
+
+
+
+
+
+</br>
   
   
 
@@ -174,33 +188,3 @@
 
 
 </pre>
-## Web scraper design
-
-### A focus on pastry recipes
-- I chose to start with pastry recipes since I come with an indepth knowledge of this space. I've explored hundreds of pastry recipe websites over my career.
-- I chose four categories of pastry and baked goods recipes that had what I considered to be important differences, yet enough similarity that they might confuse a model.
-
-### Numerous ways to format a recipe, but some intriguing similarities make a utility scraper possible
-- My initial Google search website 'spider' yielded more than recipe websites--I needed a scraper that would limit the possibility of seeing a recipe when one wasn't there
-- More than a third of recipes I encountered follow a schema format promoted by Yoast, a website schema publisher to aid in SEO optimization--useful tags and a json structure with standardized keys for things like recipe ingredients and instructions (Yeah!)
-- Another 40-50% placed the body of their recipe in a script tag with one of several commonly used attributes. This wasn't as clean of an approach--I usually ended up with extra text--but I still was able to get some results
-- The rest, well, some didn't want to be scraped, and some had unusual structures. I could spend a lot of time chasing the tail with limited utility.
-
-### Results
-
-- First pass links from Google search | Usable recipes obtained |  Yield
-- Brioche               | 112       | 55     | 49%
-- Ciambellone           | 116       | 55     |  47%
-- Croissant             | 180       | 72     | 40%
-- Puff pastry           | 200       | 86     | 43%
-
-
-
-
-## Future Directions
-- Develop a spider to crawl targeted websites instead of relying on Google search
-- Improve the search web-scraping function to obtain a better yield
-- Replace search with an unsupervised NLP model
-- Explore other parameters of croissant preparation and baking.
-- Explore the comments for the various websites to determine if people in the respective countries interact differently with recipe authors.
-- Once the tools are in good shape, use them to explore other food topics.
