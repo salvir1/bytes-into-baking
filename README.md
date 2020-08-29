@@ -75,7 +75,7 @@
 - Train test split initially
 - K Fold cross validation to get a more accurate measure of accuracy
 
-## Results
+### Results
 - Mean accuracy of about 90% for the train test split set
 - Similar results from the K Fold cross validation approach
 
@@ -104,7 +104,7 @@
   
 
 
-## Analysis
+### Analysis
 - Most of the errors occurred before the ML model step. In several cases, the recipe author misclassified their recipe. One common mistake is to classify a pie crust as a puff pastry--they are not the same. Google search also can have a relatively high rate of type 2 errors--false positives. Non-recipe websites were weeded out by the web scraper, but some non-target recipes made it through. For instance, a breakfast sausage croissant sandwich recipe made it through.
 - The scraper grabbed insufficient data in one case.
 - The model made bad predictions in two cases.
@@ -115,10 +115,21 @@
 | Scraper error | 1 | 1% |
 | Bad prediction by model | 2 | 2% |
 
+
+## Unsupervised learning models
+
+### Latent topics from Non-negative Matrix Factorization
+- Fairly clear groupings
+- Not as clear as they would be with more recipe data
+
+<div class="row">
+    <img align="center" src="img/latent-topcs-nmf.png" width='1100' height='auto' ></img>
+</div>
+
 # Future Directions
 - Improve the web scraper to get a higher yield while maintaining its high accuracy
 - Experiment with word2vec to see if features provide more intuition
-- With a given class (such as croissants), perform latent topics analysis with Non-negative Matrix Factorization (NMF) to see if an unsupervised model can provide utility (Perhaps it can help to separate the great websites like Gourmetier from the rest)
+- Once more data is available, perform latent topics analysis with Non-negative Matrix Factorization (NMF) *within* a given class (such as croissants) to see if an unsupervised model can provide utility (Perhaps it can help to separate the great websites like Gourmetier from the rest)
 
 ## EDA from an early phase of the project
 ### Searching for croissant baking temperatures
