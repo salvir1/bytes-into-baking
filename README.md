@@ -87,6 +87,23 @@
 - Mean accuracy of about 90% for the train test split set
 - Similar results from the K Fold cross validation approach
 
+<div class="row">
+    <img align="right" src="img/errors_table.png" width='1100' height='auto' ></img>
+</div> 
+<div class="row">
+    <img align="right" src="img/confusion_matrix.png" width='400' height='auto' ></img>
+</div> 
+<pre>
+
+
+
+
+
+
+
+
+</pre>
+
 ## Analysis
 - Most of the errors occurred before the ML model step. In several cases, the recipe author misclassified their recipe. One common mistake is to classify a pie crust as a puff pastry--they are not the same. Google search also can have a relatively high rate of type 2 errors--false positives. Non-recipe websites were weeded out by the web scraper, but some non-target recipes made it through. For instance, a breakfast sausage croissant sandwich recipe made it through.
 - The scraper grabbed insufficient data in one case.
