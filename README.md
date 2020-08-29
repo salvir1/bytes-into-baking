@@ -38,10 +38,20 @@
 > - Pie crust
 > - Puff pastry
 
-<img align="left" src="img/ciambellone-star.JPG" width='200' height='auto' ></img>
-<img align="center" src="img/open_crumb_croissant.jpg" width='200' height='auto' ></img>
-<img align="center" src="img/galette.jpg" width='200' height='auto' ></img>
-<img align="right" src="img/Puff pastry tart.JPG" width='200' height='auto' ></img>
+<div class="row">
+  <div class="column">
+    <img src="img/ciambellone-star.JPG" width='200' height='auto' ></img>
+  </div>
+  <div class="column">
+    <img src="img/open_crumb_croissant.jpg" width='200' height='auto' ></img>
+  </div>
+  <div class="column">
+    <img src="img/galette.JPG" width='200' height='auto' ></img>
+  </div>
+  <div class="column">
+    <img src="img/Puff pastry tart.JPG" width='200' height='auto' ></img>
+  </div>
+</div> 
 
 ### Numerous ways to format a recipe, but some intriguing similarities make a utility scraper possible
 - My initial Google search website 'spider' yielded more than recipe websites--I needed a scraper that would limit the possibility of seeing a recipe when one wasn't there
@@ -88,8 +98,12 @@
 | Scraper error | 1 | 1% |
 | Bad prediction by model | 2 | 2% |
 
+# Future Directions
+- Improve the web scraper to get a higher yield while maintaining its high accuracy
+- Experiment with word2vec to see if features provide more intuition
+- With a given class (such as croissants), perform latent topics analysis with Non-negative Matrix Factorization (NMF) to see if an unsupervised model can provide utility (Perhaps it can help to separate the great websites like Gourmetier from the rest)
 
-## Preliminary EDA
+## EDA from an early phase of the project
 ### Searching for croissant baking temperatures
 - Searches for 'croissant bake temperature' or 'temperature cuisson croissant' were conducted on Google country-specific search sites for the US, UK, and France. The first 100 links were obtained for each country. These links were subsequently scraped to determine if they were a croissant baking recipe, and if so, for their initial baking temperature.
 - Baking temperatures were found by looking for sentences that contained the words 'preheat', 'bake', or 'oven' followed by a 3 digit number followed by a temperature indicator. 
