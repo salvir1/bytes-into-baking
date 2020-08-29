@@ -1,5 +1,5 @@
 # bytes-into-baking
-<img align="right" src="img/croissant-display.JPG" width='500' height='auto' ></img>
+<img align="right" src="img/croissant-display.JPG" width='400' height='auto' ></img>
 
 ## Project Overview
 - Food is one of the most common topics on the internet, with content being published on the web by big businesses such as *foodnetwork* and *allrecipes* to home chefs writing their own blogs. 
@@ -94,23 +94,9 @@
 <div class="row">
     <img align="left" src="img/confusion_matrix.png" width='400' height='auto' ></img>
 </div> 
-<pre>
+  
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</pre>
 
 ## Analysis
 - Most of the errors occurred before the ML model step. In several cases, the recipe author misclassified their recipe. One common mistake is to classify a pie crust as a puff pastry--they are not the same. Google search also can have a relatively high rate of type 2 errors--false positives. Non-recipe websites were weeded out by the web scraper, but some non-target recipes made it through. For instance, a breakfast sausage croissant sandwich recipe made it through.
