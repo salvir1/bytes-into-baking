@@ -13,7 +13,7 @@ from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF as NMF_sklearn
 
-from my_nmf import NMF
+from src.my_nmf import NMF
 
 
 def build_text_vectorizer(contents, use_tfidf=True, use_stemmer=False, max_features=None):
@@ -31,12 +31,14 @@ def build_text_vectorizer(contents, use_tfidf=True, use_stemmer=False, max_featu
     tokenizer = RegexpTokenizer(r"[\w']+")
     stem = PorterStemmer().stem if use_stemmer else (lambda x: x)
     stop_set = set(stopwords.words('english'))
+    titles_to_remove = ['ciambellone', 'ciambella','puff','croissant', 'croissants', 'pie crust', 'pie dough', 'pie', 'crescent', 'brioche']
 
     # Closure over the tokenizer et al.
     def tokenize(text):
         tokens = tokenizer.tokenize(text)
         stems = [stem(token) for token in tokens if token not in stop_set]
-        return stems
+        no_titles = [w for w in stems if w not in titles_to_remove]
+        return no_titles
 
     vectorizer_model = Vectorizer(tokenizer=tokenize, max_features=max_features)
     vectorizer_model.fit(contents)
@@ -76,13 +78,12 @@ def hand_label_topics(H, vocabulary):
     return hand_labels
 
 
-def analyze_article(article_index, contents, web_urls, W, hand_labels):
+def analyze_recipe(article_index, contents, W, hand_labels):
     '''
     Print an analysis of a single document, including the text
     and a summary of which topics it represents. The topics are identified
     via the hand-labels which were assigned by the user.
     '''
-    print(web_urls[article_index])
     print(contents[article_index])
     probs = softmax(W[article_index], temperature=0.01)
     for prob, label in zip(probs, hand_labels):
@@ -118,7 +119,7 @@ def main():
     hand_labels = hand_label_topics(H, vocabulary)
     rand_articles = np.random.choice(list(range(len(W))), 15)
     for i in rand_articles:
-        analyze_article(i, contents, web_urls, W, hand_labels)
+        analyze_recipe(i, contents, W, hand_labels)
 
     # Do it all again, this time using scikit-learn.
     nmf = NMF_sklearn(n_components=7, max_iter=100, random_state=12345, alpha=0.0)
@@ -127,7 +128,7 @@ def main():
     print('reconstruction error:', nmf.reconstruction_err_)
     hand_labels = hand_label_topics(H, vocabulary)
     for i in rand_articles:
-        analyze_article(i, contents, web_urls, W, hand_labels)
+        analyze_recipe(i, contents, W, hand_labels)
 
 
 if __name__ == '__main__':
